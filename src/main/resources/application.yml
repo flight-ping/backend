@@ -1,12 +1,10 @@
 spring:
   application:
     name: backend
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/flightping}
-    username: ${SPRING_DATASOURCE_USERNAME:flightping}
-    password: ${SPRING_DATASOURCE_PASSWORD:flightping}
-    driver-class-name: org.postgresql.Driver
+  profiles:
+    default: local
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: validate
     properties:
