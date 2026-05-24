@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: backend-test
+  datasource:
+    url: jdbc:h2:mem:flightping-test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop

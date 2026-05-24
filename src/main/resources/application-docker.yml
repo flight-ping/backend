@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/flightping}
+    username: ${SPRING_DATASOURCE_USERNAME:flightping}
+    password: ${SPRING_DATASOURCE_PASSWORD:flightping}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
