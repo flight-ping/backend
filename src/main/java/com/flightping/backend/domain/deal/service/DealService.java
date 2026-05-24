@@ -1,5 +1,8 @@
 package com.flightping.backend.domain.deal.service;
 
+import com.flightping.backend.common.exception.BusinessException;
+import com.flightping.backend.common.exception.ErrorCode;
+import com.flightping.backend.domain.deal.dto.DealDetailResponse;
 import com.flightping.backend.domain.deal.dto.DealItemDto;
 import com.flightping.backend.domain.deal.dto.DealSectionResponse;
 import com.flightping.backend.domain.deal.entity.Deal;
@@ -49,5 +52,11 @@ public class DealService {
                 .collect(Collectors.toList());
 
         return new DealSectionResponse(sections);
+    }
+
+    public DealDetailResponse getDealDetail(Long dealId) {
+        Deal deal = dealRepository.findById(dealId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.DEAL_NOT_FOUND));
+        return DealDetailResponse.from(deal);
     }
 }
