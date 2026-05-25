@@ -8,4 +8,5 @@ import java.util.List;
 public interface DealRepository extends JpaRepository<Deal, Long> {
 
     List<Deal> findAllByOrderBySaleEndAsc();
+
 }
