@@ -23,4 +23,10 @@ public class InterestedRoute {
     @Column(nullable = false)
     private String dest;  // 도착 공항 코드 (ex. NRT)
 
+    public InterestedRoute(String userId, String departure, String dest) {
+        this.userId = userId;
+        this.departure = departure;
+        this.dest = dest;
+    }
+
 }
