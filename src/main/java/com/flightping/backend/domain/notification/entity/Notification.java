@@ -24,4 +24,8 @@ public class Notification {
         this.userId = userId;
         this.enabled = enabled;
     }
+
+    public void updateEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 }
