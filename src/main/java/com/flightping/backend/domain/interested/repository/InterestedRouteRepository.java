@@ -8,4 +8,6 @@ import java.util.List;
 public interface InterestedRouteRepository extends JpaRepository<InterestedRoute, Long> {
 
     List<InterestedRoute> findByUserId(String userId);
+
+    boolean existsByUserIdAndDepartureAndDest(String userId, String departure, String dest);
 }

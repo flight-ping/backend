@@ -1,13 +1,13 @@
 package com.flightping.backend.domain.interested.controller;
 
+import com.flightping.backend.domain.interested.dto.AddInterestedRouteRequest;
 import com.flightping.backend.domain.interested.dto.InterestedRouteResponse;
 import com.flightping.backend.domain.interested.service.InterestedRouteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/interested-routes")
@@ -21,5 +21,14 @@ public class InterestedRouteController {
             @RequestHeader("X-User-Id") String userId
     ) {
         return ResponseEntity.ok(interestedRouteService.getInterestedRoutes(userId));
+    }
+
+    @PostMapping
+    public ResponseEntity<InterestedRouteResponse.RouteDto> addInterestedRoute(
+            @RequestHeader("X-User-Id") String userId,
+            @Valid @RequestBody AddInterestedRouteRequest request
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(interestedRouteService.addInterestedRoute(userId, request));
     }
 }
