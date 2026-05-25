@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/deals/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/airports").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/destinations").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/routes").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/routes/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/flights").permitAll()
                         // 인증 필요 API (X-User-Id 헤더 필요)
                         .anyRequest().authenticated()

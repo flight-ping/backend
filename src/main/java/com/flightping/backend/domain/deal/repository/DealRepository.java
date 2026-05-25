@@ -9,4 +9,6 @@ public interface DealRepository extends JpaRepository<Deal, Long> {
 
     List<Deal> findAllByOrderBySaleEndAsc();
 
+    List<Deal> findByDepartureAndDestOrderBySaleEndAsc(String departure, String dest);
+
 }
