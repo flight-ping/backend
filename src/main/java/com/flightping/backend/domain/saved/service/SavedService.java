@@ -45,4 +45,12 @@ public class SavedService {
         }
         savedDealRepository.save(new SavedDeal(userId, dealId));
     }
+
+    @Transactional
+    public void deleteSavedDeal(String userId, Long dealId) {
+        SavedDeal savedDeal = savedDealRepository.findByUserIdAndDealId(userId, dealId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.SAVED_DEAL_NOT_FOUND));
+
+        savedDealRepository.delete(savedDeal);
+    }
 }
