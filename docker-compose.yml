@@ -7,11 +7,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      crawler:
+        condition: service_started
     environment:
       SERVER_PORT: 8080
       SPRING_PROFILES_ACTIVE: docker
+      CRAWLER_URL: http://crawler:8000
     ports:
       - "8080:8080"
+
+  crawler:
+    build:
+      context: ../crawler
+      dockerfile: Dockerfile
+    container_name: flightping-crawler
+    ports:
+      - "8000:8000"
 
   db:
     image: postgres:16-alpine
