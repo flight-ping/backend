@@ -1,9 +1,11 @@
 package com.flightping.backend.domain.saved.service;
 
+import com.flightping.backend.common.exception.BusinessException;
+import com.flightping.backend.common.exception.ErrorCode;
 import com.flightping.backend.domain.deal.dto.DealItemDto;
-import com.flightping.backend.domain.deal.entity.Deal;
 import com.flightping.backend.domain.deal.repository.DealRepository;
 import com.flightping.backend.domain.saved.dto.SavedDealResponse;
+import com.flightping.backend.domain.saved.entity.SavedDeal;
 import com.flightping.backend.domain.saved.repository.SavedDealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,5 +33,16 @@ public class SavedService {
                 .toList();
 
         return new SavedDealResponse(deals);
+    }
+
+    @Transactional
+    public void saveDeal(String userId, Long dealId) {
+        if (!dealRepository.existsById(dealId)) {
+            throw new BusinessException(ErrorCode.DEAL_NOT_FOUND);
+        }
+        if (savedDealRepository.existsByUserIdAndDealId(userId, dealId)) {
+            throw new BusinessException(ErrorCode.SAVED_DEAL_ALREADY_EXISTS);
+        }
+        savedDealRepository.save(new SavedDeal(userId, dealId));
     }
 }

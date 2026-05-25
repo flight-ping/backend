@@ -3,6 +3,7 @@ package com.flightping.backend.domain.saved.controller;
 import com.flightping.backend.domain.saved.dto.SavedDealResponse;
 import com.flightping.backend.domain.saved.service.SavedService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,5 +19,14 @@ public class SavedController {
             @RequestHeader("X-User-Id") String userId
     ) {
         return ResponseEntity.ok(savedService.getSavedDeals(userId));
+    }
+
+    @PostMapping("/{dealId}")
+    public ResponseEntity<Void> saveDeal(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable Long dealId
+    ) {
+        savedService.saveDeal(userId, dealId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
