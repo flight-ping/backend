@@ -19,4 +19,8 @@ public class Airport {
 
     @Column(nullable = false)
     private String city;  // 도시명 (e.g. 인천, 김포)
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AirportType type;  // DEPARTURE(출발지) / DESTINATION(도착지)
 }
