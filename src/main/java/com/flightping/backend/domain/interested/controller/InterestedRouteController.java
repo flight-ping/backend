@@ -31,4 +31,13 @@ public class InterestedRouteController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(interestedRouteService.addInterestedRoute(userId, request));
     }
+
+    @DeleteMapping("/{routeId}")
+    public ResponseEntity<Void> deleteInterestedRoute(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable Long routeId
+    ) {
+        interestedRouteService.deleteInterestedRoute(userId, routeId);
+        return ResponseEntity.noContent().build();
+    }
 }

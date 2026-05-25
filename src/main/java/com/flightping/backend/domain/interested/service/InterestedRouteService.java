@@ -40,4 +40,16 @@ public class InterestedRouteService {
         InterestedRoute saved = interestedRouteRepository.save(route);
         return InterestedRouteResponse.RouteDto.from(saved);
     }
+
+    @Transactional
+    public void deleteInterestedRoute(String userId, Long routeId) {
+        InterestedRoute route = interestedRouteRepository.findById(routeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ROUTE_NOT_FOUND));
+
+        if (!route.getUserId().equals(userId)) {
+            throw new BusinessException(ErrorCode.ROUTE_NOT_FOUND);
+        }
+
+        interestedRouteRepository.delete(route);
+    }
 }
