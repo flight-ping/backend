@@ -5,6 +5,7 @@ import com.flightping.backend.common.exception.ErrorCode;
 import com.flightping.backend.domain.deal.dto.DealDetailResponse;
 import com.flightping.backend.domain.deal.dto.DealItemDto;
 import com.flightping.backend.domain.deal.dto.DealSectionResponse;
+import com.flightping.backend.domain.deal.dto.RouteDealsResponse;
 import com.flightping.backend.domain.deal.entity.Deal;
 import com.flightping.backend.domain.deal.repository.DealRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +59,14 @@ public class DealService {
         Deal deal = dealRepository.findById(dealId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.DEAL_NOT_FOUND));
         return DealDetailResponse.from(deal);
+    }
+
+    public RouteDealsResponse getRouteDeals(String departure, String dest) {
+        List<DealItemDto> deals = dealRepository
+                .findByDepartureAndDestOrderBySaleEndAsc(departure, dest)
+                .stream()
+                .map(DealItemDto::from)
+                .collect(Collectors.toList());
+        return new RouteDealsResponse(departure, dest, deals);
     }
 }
