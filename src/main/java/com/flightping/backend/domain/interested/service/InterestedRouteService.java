@@ -3,6 +3,7 @@ package com.flightping.backend.domain.interested.service;
 import com.flightping.backend.common.exception.BusinessException;
 import com.flightping.backend.common.exception.ErrorCode;
 import com.flightping.backend.domain.interested.dto.AddInterestedRouteRequest;
+import com.flightping.backend.domain.interested.dto.InterestedRouteCheckResponse;
 import com.flightping.backend.domain.interested.dto.InterestedRouteResponse;
 import com.flightping.backend.domain.interested.entity.InterestedRoute;
 import com.flightping.backend.domain.interested.repository.InterestedRouteRepository;
@@ -51,5 +52,11 @@ public class InterestedRouteService {
         }
 
         interestedRouteRepository.delete(route);
+    }
+
+    @Transactional(readOnly = true)
+    public InterestedRouteCheckResponse checkInterestedRoute(String userId, String departure, String dest) {
+        boolean exists = interestedRouteRepository.existsByUserIdAndDepartureAndDest(userId, departure, dest);
+        return new InterestedRouteCheckResponse(exists);
     }
 }

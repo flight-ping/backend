@@ -1,6 +1,7 @@
 package com.flightping.backend.domain.interested.controller;
 
 import com.flightping.backend.domain.interested.dto.AddInterestedRouteRequest;
+import com.flightping.backend.domain.interested.dto.InterestedRouteCheckResponse;
 import com.flightping.backend.domain.interested.dto.InterestedRouteResponse;
 import com.flightping.backend.domain.interested.service.InterestedRouteService;
 import jakarta.validation.Valid;
@@ -39,5 +40,14 @@ public class InterestedRouteController {
     ) {
         interestedRouteService.deleteInterestedRoute(userId, routeId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<InterestedRouteCheckResponse> checkInterestedRoute(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestParam String departure,
+            @RequestParam String dest
+    ) {
+        return ResponseEntity.ok(interestedRouteService.checkInterestedRoute(userId, departure, dest));
     }
 }
