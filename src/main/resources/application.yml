@@ -20,6 +20,9 @@ management:
       exposure:
         include: health,info
 
+crawler:
+  url: ${CRAWLER_URL}
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
