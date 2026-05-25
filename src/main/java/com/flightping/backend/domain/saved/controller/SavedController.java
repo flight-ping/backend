@@ -29,4 +29,13 @@ public class SavedController {
         savedService.saveDeal(userId, dealId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{dealId}")
+    public ResponseEntity<Void> deleteSavedDeal(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable Long dealId
+    ) {
+        savedService.deleteSavedDeal(userId, dealId);
+        return ResponseEntity.noContent().build();
+    }
 }
