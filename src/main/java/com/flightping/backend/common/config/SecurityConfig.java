@@ -1,8 +1,5 @@
 package com.flightping.backend.common.config;
 
-import com.flightping.backend.common.auth.JwtFilter;
-import com.flightping.backend.common.auth.JwtProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,14 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JwtProvider jwtProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,11 +27,11 @@ public class SecurityConfig {
                         // 공개 API
                         .requestMatchers(HttpMethod.GET, "/api/v1/deals/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/airports").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/routes").permitAll()
-                        // 인증 필요 API
+                        // 인증 필요 API (X-User-Id 헤더 필요)
                         .anyRequest().authenticated()
-                )
-                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                );
 
         return http.build();
     }
