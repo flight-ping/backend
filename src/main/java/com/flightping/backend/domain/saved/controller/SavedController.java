@@ -1,6 +1,7 @@
 package com.flightping.backend.domain.saved.controller;
 
 import com.flightping.backend.domain.saved.dto.SavedDealResponse;
+import com.flightping.backend.domain.saved.dto.SavedStatusResponse;
 import com.flightping.backend.domain.saved.service.SavedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,13 @@ public class SavedController {
     ) {
         savedService.deleteSavedDeal(userId, dealId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{dealId}/status")
+    public ResponseEntity<SavedStatusResponse> getSavedStatus(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable Long dealId
+    ) {
+        return ResponseEntity.ok(savedService.getSavedStatus(userId, dealId));
     }
 }

@@ -5,6 +5,7 @@ import com.flightping.backend.common.exception.ErrorCode;
 import com.flightping.backend.domain.deal.dto.DealItemDto;
 import com.flightping.backend.domain.deal.repository.DealRepository;
 import com.flightping.backend.domain.saved.dto.SavedDealResponse;
+import com.flightping.backend.domain.saved.dto.SavedStatusResponse;
 import com.flightping.backend.domain.saved.entity.SavedDeal;
 import com.flightping.backend.domain.saved.repository.SavedDealRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +53,10 @@ public class SavedService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.SAVED_DEAL_NOT_FOUND));
 
         savedDealRepository.delete(savedDeal);
+    }
+
+    public SavedStatusResponse getSavedStatus(String userId, Long dealId) {
+        boolean saved = savedDealRepository.existsByUserIdAndDealId(userId, dealId);
+        return new SavedStatusResponse(saved);
     }
 }
