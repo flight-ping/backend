@@ -8,4 +8,6 @@ import java.util.List;
 public interface SavedDealRepository extends JpaRepository<SavedDeal, Long> {
 
     List<SavedDeal> findByUserId(String userId);
+
+    boolean existsByUserIdAndDealId(String userId, Long dealId);
 }
