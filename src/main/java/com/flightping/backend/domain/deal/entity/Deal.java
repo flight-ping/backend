@@ -50,6 +50,9 @@ public class Deal {
     private String bookingUrl;
 
     @Column
+    private String imageUrl;
+
+    @Column
     private String section;
 
     @Column

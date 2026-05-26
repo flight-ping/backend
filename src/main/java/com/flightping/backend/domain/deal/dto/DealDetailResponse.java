@@ -20,6 +20,8 @@ public record DealDetailResponse(
         LocalDate saleEnd,
         String dday,
         Boolean urgent,
+        String color,
+        String imageUrl,
         String bookingUrl
 ) {
     public static DealDetailResponse from(Deal deal) {
@@ -40,6 +42,8 @@ public record DealDetailResponse(
                 deal.getSaleEnd(),
                 dday,
                 deal.getUrgent(),
+                deal.getColor(),
+                deal.getImageUrl(),
                 deal.getBookingUrl()
         );
     }
