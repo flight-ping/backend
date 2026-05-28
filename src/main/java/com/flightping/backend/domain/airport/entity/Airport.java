@@ -1,13 +1,14 @@
 package com.flightping.backend.domain.airport.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "airports")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class Airport {
 
     @Id
@@ -15,12 +16,23 @@ public class Airport {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String code;  // 공항 코드 (e.g. ICN, GMP)
+    private String code;
 
     @Column(nullable = false)
-    private String city;  // 도시명 (e.g. 인천, 김포)
+    private String city;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AirportType type;  // DEPARTURE(출발지) / DESTINATION(도착지)
+    @Column
+    private String isoCode;
+
+    public void update(String city, String isoCode) {
+        this.city = city;
+        this.isoCode = isoCode;
+    }
+
+    public String getFlag() {
+        if (isoCode == null || isoCode.length() != 2) return "";
+        int a = 0x1F1E6 + (isoCode.charAt(0) - 'A');
+        int b = 0x1F1E6 + (isoCode.charAt(1) - 'A');
+        return new String(Character.toChars(a)) + new String(Character.toChars(b));
+    }
 }

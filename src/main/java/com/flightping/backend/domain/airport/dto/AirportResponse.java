@@ -10,12 +10,14 @@ public record AirportResponse(
     public record AirportDto(
             String code,
             String city,
-            String display  // "인천(ICN)" 형식
+            String flag,
+            String display
     ) {
         public static AirportDto from(Airport airport) {
             return new AirportDto(
                     airport.getCode(),
                     airport.getCity(),
+                    airport.getFlag(),
                     airport.getCity() + "(" + airport.getCode() + ")"
             );
         }
