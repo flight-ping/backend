@@ -24,6 +24,8 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/api-docs/**", "/swagger-ui.html").permitAll()
                         // Actuator
                         .requestMatchers("/actuator/**", "/api/health").permitAll()
+                        // 내부 API
+                        .requestMatchers(HttpMethod.POST, "/api/internal/**").permitAll()
                         // 공개 API
                         .requestMatchers(HttpMethod.GET, "/api/v1/deals/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/airports").permitAll()

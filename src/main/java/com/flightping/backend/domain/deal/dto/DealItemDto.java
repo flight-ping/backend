@@ -17,7 +17,8 @@ public record DealItemDto(
         String dday,
         Boolean urgent,
         String color,
-        String flag
+        String flag,
+        String imageUrl
 ) {
     public static DealItemDto from(Deal deal) {
         String priceText = "왕복 " + NumberFormat.getNumberInstance(Locale.KOREA).format(deal.getPrice()) + "원~";
@@ -34,7 +35,8 @@ public record DealItemDto(
                 dday,
                 deal.getUrgent(),
                 deal.getColor(),
-                deal.getFlag()
+                deal.getFlag(),
+                deal.getImageUrl()
         );
     }
 }
