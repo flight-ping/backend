@@ -1,6 +1,5 @@
 package com.flightping.backend.domain.destination.service;
 
-import com.flightping.backend.domain.airport.entity.AirportType;
 import com.flightping.backend.domain.airport.repository.AirportRepository;
 import com.flightping.backend.domain.destination.dto.DestinationResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class DestinationService {
 
     public DestinationResponse getDestinations() {
         List<DestinationResponse.DestinationDto> destinations = airportRepository
-                .findByTypeOrderByCityAsc(AirportType.DESTINATION)
+                .findAllByOrderByCityAsc()
                 .stream()
                 .map(DestinationResponse.DestinationDto::from)
                 .collect(Collectors.toList());
