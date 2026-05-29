@@ -6,7 +6,9 @@ import com.flightping.backend.domain.airport.repository.AirportRepository;
 import com.flightping.backend.domain.airport.service.AirportLookupService;
 import com.flightping.backend.domain.deal.entity.CrawlerDealDto;
 import com.flightping.backend.domain.deal.entity.Deal;
+import com.flightping.backend.domain.deal.entity.DealRoute;
 import com.flightping.backend.domain.deal.repository.DealRepository;
+import com.flightping.backend.domain.deal.repository.DealRouteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,7 @@ public class DealSyncService {
 
     private final RestTemplate restTemplate;
     private final DealRepository dealRepository;
+    private final DealRouteRepository dealRouteRepository;
     private final AirportRepository airportRepository;
     private final AirportLookupService airportLookupService;
 
@@ -62,12 +65,21 @@ public class DealSyncService {
             String isoCode = arr != null ? arr.getIsoCode() : null;
 
             var existing = dealRepository.findByBookingUrl(dto.bookingUrl());
+            Deal deal;
             if (existing.isPresent()) {
-                existing.get().updateFrom(dto, depCity, arrCity, isoCode);
+                deal = existing.get();
+                deal.updateFrom(dto, depCity, arrCity, isoCode);
                 updated++;
             } else {
-                dealRepository.save(Deal.from(dto, depCity, arrCity, isoCode));
+                deal = dealRepository.save(Deal.from(dto, depCity, arrCity, isoCode));
                 created++;
+            }
+
+            if (dto.routes() != null && !dto.routes().isEmpty()) {
+                dealRouteRepository.deleteByDealId(deal.getId());
+                for (CrawlerDealDto.RouteDto r : dto.routes()) {
+                    dealRouteRepository.save(DealRoute.of(deal, r.routeText(), r.price(), r.tripType()));
+                }
             }
         }
 
