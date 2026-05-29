@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class DealService {
     private final DealRouteRepository dealRouteRepository;
 
     public DealSectionResponse getDeals() {
-        List<Deal> deals = dealRepository.findAllByOrderBySaleEndAsc();
+        List<Deal> deals = dealRepository.findBySaleEndGreaterThanEqualOrderBySaleEndAsc(LocalDate.now());
 
         // section 기준으로 순서 유지하며 그룹핑
         Map<String, List<Deal>> grouped = new LinkedHashMap<>();
