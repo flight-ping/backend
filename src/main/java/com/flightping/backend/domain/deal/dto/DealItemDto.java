@@ -17,7 +17,7 @@ public record DealItemDto(
         String dday,
         Boolean urgent,
         String color,
-        String flag,
+        String isoCode,
         String imageUrl
 ) {
     public static DealItemDto from(Deal deal) {
@@ -35,7 +35,7 @@ public record DealItemDto(
                 dday,
                 deal.getUrgent(),
                 deal.getColor(),
-                deal.getFlag(),
+                deal.getIsoCode(),
                 deal.getImageUrl()
         );
     }
