@@ -59,14 +59,14 @@ public class DealSyncService {
 
             String depCity = dep != null ? dep.getCity() : dto.departure();
             String arrCity = arr != null ? arr.getCity() : dto.dest();
-            String flag    = arr != null ? arr.getFlag() : "";
+            String isoCode = arr != null ? arr.getIsoCode() : null;
 
             var existing = dealRepository.findByBookingUrl(dto.bookingUrl());
             if (existing.isPresent()) {
-                existing.get().updateFrom(dto, depCity, arrCity, flag);
+                existing.get().updateFrom(dto, depCity, arrCity, isoCode);
                 updated++;
             } else {
-                dealRepository.save(Deal.from(dto, depCity, arrCity, flag));
+                dealRepository.save(Deal.from(dto, depCity, arrCity, isoCode));
                 created++;
             }
         }
@@ -79,18 +79,15 @@ public class DealSyncService {
     private Airport ensureAirport(String iata, Map<String, Airport> airportMap) {
         if (airportMap.containsKey(iata)) return airportMap.get(iata);
 
-        AirportLookupService.AirportInfo info = airportLookupService.lookup(iata);
-        if (info == null) {
-            log.warn("공항 조회 실패: {}", iata);
-            return null;
-        }
+        var info = airportLookupService.lookup(iata);
+        if (info.isEmpty()) return null;
 
         Airport airport = airportRepository.findByCode(iata)
-                .map(existing -> { existing.update(info.city(), info.isoCode()); return existing; })
-                .orElse(Airport.builder().code(iata).city(info.city()).isoCode(info.isoCode()).build());
+                .map(existing -> { existing.update(info.get().city(), info.get().isoCode()); return existing; })
+                .orElse(Airport.builder().code(iata).city(info.get().city()).isoCode(info.get().isoCode()).build());
         airport = airportRepository.save(airport);
         airportMap.put(iata, airport);
-        log.info("공항 등록: {} -> {} ({})", iata, info.city(), info.isoCode());
+        log.info("공항 등록: {} -> {} ({})", iata, info.get().city(), info.get().isoCode());
         return airport;
     }
 

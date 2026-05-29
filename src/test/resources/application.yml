@@ -10,3 +10,6 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
+
+crawler:
+  url: http://localhost:8001
