@@ -24,8 +24,6 @@ services:
       context: ../crawler
       dockerfile: Dockerfile
     container_name: flightping-crawler
-    environment:
-      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL:-}
     ports:
       - "8000:8000"
 
