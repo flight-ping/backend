@@ -7,7 +7,9 @@ import com.flightping.backend.domain.deal.dto.DealItemDto;
 import com.flightping.backend.domain.deal.dto.DealSectionResponse;
 import com.flightping.backend.domain.deal.dto.RouteDealsResponse;
 import com.flightping.backend.domain.deal.entity.Deal;
+import com.flightping.backend.domain.deal.entity.DealRoute;
 import com.flightping.backend.domain.deal.repository.DealRepository;
+import com.flightping.backend.domain.deal.repository.DealRouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class DealService {
 
     private final DealRepository dealRepository;
+    private final DealRouteRepository dealRouteRepository;
 
     public DealSectionResponse getDeals() {
         List<Deal> deals = dealRepository.findAllByOrderBySaleEndAsc();
@@ -58,7 +61,8 @@ public class DealService {
     public DealDetailResponse getDealDetail(Long dealId) {
         Deal deal = dealRepository.findById(dealId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.DEAL_NOT_FOUND));
-        return DealDetailResponse.from(deal);
+        List<DealRoute> routes = dealRouteRepository.findByDealId(dealId);
+        return DealDetailResponse.from(deal, routes);
     }
 
     public RouteDealsResponse getRouteDeals(String departure, String dest) {
