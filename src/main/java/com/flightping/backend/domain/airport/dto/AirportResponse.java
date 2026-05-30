@@ -10,6 +10,8 @@ public record AirportResponse(
     public record AirportDto(
             String code,
             String city,
+            String isoCode,
+            String countryName,
             String flag,
             String display
     ) {
@@ -17,6 +19,8 @@ public record AirportResponse(
             return new AirportDto(
                     airport.getCode(),
                     airport.getCity(),
+                    airport.getIsoCode(),
+                    airport.getCountryName(),
                     airport.getFlag(),
                     airport.getCity() + "(" + airport.getCode() + ")"
             );

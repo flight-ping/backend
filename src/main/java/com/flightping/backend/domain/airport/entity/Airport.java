@@ -24,9 +24,13 @@ public class Airport {
     @Column
     private String isoCode;
 
-    public void update(String city, String isoCode) {
+    @Column
+    private String countryName;
+
+    public void update(String city, String isoCode, String countryName) {
         this.city = city;
         this.isoCode = isoCode;
+        this.countryName = countryName;
     }
 
     public String getFlag() {

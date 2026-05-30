@@ -78,7 +78,10 @@ public class DealSyncService {
             if (dto.routes() != null && !dto.routes().isEmpty()) {
                 dealRouteRepository.deleteByDealId(deal.getId());
                 for (CrawlerDealDto.RouteDto r : dto.routes()) {
-                    dealRouteRepository.save(DealRoute.of(deal, r.routeText(), r.price(), r.tripType()));
+                    if (r.depCode() != null && !r.depCode().isBlank()) ensureAirport(r.depCode(), airportMap);
+                    if (r.arrCode() != null && !r.arrCode().isBlank()) ensureAirport(r.arrCode(), airportMap);
+                    dealRouteRepository.save(DealRoute.of(deal, r.routeText(), r.price(), r.tripType(),
+                            r.depCode(), r.arrCode()));
                 }
             }
         }
@@ -95,7 +98,7 @@ public class DealSyncService {
         if (info.isEmpty()) return null;
 
         Airport airport = airportRepository.findByCode(iata)
-                .map(existing -> { existing.update(info.get().city(), info.get().isoCode()); return existing; })
+                .map(existing -> { existing.update(info.get().city(), info.get().isoCode(), ""); return existing; })
                 .orElse(Airport.builder().code(iata).city(info.get().city()).isoCode(info.get().isoCode()).build());
         airport = airportRepository.save(airport);
         airportMap.put(iata, airport);
