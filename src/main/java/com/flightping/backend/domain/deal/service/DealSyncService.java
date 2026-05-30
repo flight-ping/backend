@@ -98,9 +98,9 @@ public class DealSyncService {
         if (info.isEmpty()) return null;
 
         Airport airport = airportRepository.findByCode(iata)
-                .map(existing -> { existing.update(info.get().city(), info.get().isoCode(), ""); return existing; })
-                .orElse(Airport.builder().code(iata).city(info.get().city()).isoCode(info.get().isoCode()).build());
-        airport = airportRepository.save(airport);
+                .orElseGet(() -> airportRepository.save(
+                        Airport.builder().code(iata).city(info.get().city()).isoCode(info.get().isoCode()).build()
+                ));
         airportMap.put(iata, airport);
         log.info("공항 등록: {} -> {} ({})", iata, info.get().city(), info.get().isoCode());
         return airport;
