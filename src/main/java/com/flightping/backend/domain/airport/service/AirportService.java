@@ -31,6 +31,15 @@ public class AirportService {
         return new AirportResponse(airports);
     }
 
+    public AirportResponse getDepartureAirports() {
+        List<String> departureCodes = airportRouteRepository.findAllDepartureCodes();
+        List<AirportResponse.AirportDto> airports = airportRepository
+                .findAllByCodeInOrderByCityAsc(departureCodes).stream()
+                .map(AirportResponse.AirportDto::from)
+                .collect(Collectors.toList());
+        return new AirportResponse(airports);
+    }
+
     public AirportResponse getDestinations(String departureCode) {
         List<String> arrivalCodes = airportRouteRepository.findArrivalCodesByDepartureCode(departureCode);
         List<AirportResponse.AirportDto> airports = airportRepository

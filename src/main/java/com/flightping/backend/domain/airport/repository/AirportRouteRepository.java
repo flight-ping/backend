@@ -12,5 +12,8 @@ public interface AirportRouteRepository extends JpaRepository<AirportRoute, Long
     @Query("SELECT r.arrivalCode FROM AirportRoute r WHERE r.departureCode = :departureCode")
     List<String> findArrivalCodesByDepartureCode(String departureCode);
 
+    @Query("SELECT DISTINCT r.departureCode FROM AirportRoute r")
+    List<String> findAllDepartureCodes();
+
     Set<AirportRoute> findByDepartureCodeAndArrivalCodeIn(String departureCode, List<String> arrivalCodes);
 }
