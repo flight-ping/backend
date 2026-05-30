@@ -21,6 +21,8 @@ public record CrawlerDealDto(
     public record RouteDto(
             @JsonProperty("route_text") String routeText,
             Integer price,
-            @JsonProperty("trip_type") String tripType
+            @JsonProperty("trip_type") String tripType,
+            @JsonProperty("dep_code") String depCode,
+            @JsonProperty("arr_code") String arrCode
     ) {}
 }

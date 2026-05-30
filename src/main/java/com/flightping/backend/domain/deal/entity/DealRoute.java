@@ -28,12 +28,21 @@ public class DealRoute {
     @Column(nullable = false)
     private String tripType;
 
-    public static DealRoute of(Deal deal, String routeText, Integer price, String tripType) {
+    @Column
+    private String depCode;
+
+    @Column
+    private String arrCode;
+
+    public static DealRoute of(Deal deal, String routeText, Integer price, String tripType,
+                               String depCode, String arrCode) {
         return DealRoute.builder()
                 .deal(deal)
                 .routeText(routeText)
                 .price(price)
                 .tripType(tripType)
+                .depCode(depCode)
+                .arrCode(arrCode)
                 .build();
     }
 }
