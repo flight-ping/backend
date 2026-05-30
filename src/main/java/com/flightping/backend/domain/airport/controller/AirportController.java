@@ -21,6 +21,11 @@ public class AirportController {
         return ResponseEntity.ok(airportService.getAirports());
     }
 
+    @GetMapping("/departures")
+    public ResponseEntity<AirportResponse> getDepartureAirports() {
+        return ResponseEntity.ok(airportService.getDepartureAirports());
+    }
+
     @GetMapping("/{code}/destinations")
     public ResponseEntity<AirportResponse> getDestinations(@PathVariable String code) {
         return ResponseEntity.ok(airportService.getDestinations(code));
