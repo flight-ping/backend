@@ -33,7 +33,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/routes/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/flights").permitAll()
                         .requestMatchers("/api/v1/interested-routes/**").permitAll()
-                            .requestMatchers(HttpMethod.GET, "/api/v1/recommendations").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recommendations").permitAll()
+                        .requestMatchers("/api/v1/saved/**").permitAll()
+                        .requestMatchers("/api/v1/notifications/**").permitAll()
+                        .requestMatchers("/api/v1/users/**").permitAll()
                         // 인증 필요 API (X-User-Id 헤더 필요)
                         .anyRequest().authenticated()
                 );
