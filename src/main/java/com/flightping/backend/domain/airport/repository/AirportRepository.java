@@ -11,4 +11,6 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
     List<Airport> findAllByOrderByCityAsc();
 
     Optional<Airport> findByCode(String code);
+
+    List<Airport> findAllByCodeInOrderByCityAsc(List<String> codes);
 }
