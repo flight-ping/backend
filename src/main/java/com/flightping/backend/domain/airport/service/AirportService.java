@@ -46,11 +46,11 @@ public class AirportService {
         for (AirportSeedRequest req : requests) {
             var existing = airportRepository.findByCode(req.code());
             if (existing.isPresent()) {
-                existing.get().update(req.city(), req.isoCode());
+                existing.get().update(req.city(), req.isoCode(), req.countryName());
                 updated++;
             } else {
                 airportRepository.save(Airport.builder()
-                        .code(req.code()).city(req.city()).isoCode(req.isoCode()).build());
+                        .code(req.code()).city(req.city()).isoCode(req.isoCode()).countryName(req.countryName()).build());
                 created++;
             }
         }
