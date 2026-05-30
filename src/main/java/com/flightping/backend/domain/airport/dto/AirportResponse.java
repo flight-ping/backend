@@ -12,6 +12,7 @@ public record AirportResponse(
             String city,
             String isoCode,
             String countryName,
+            String continent,
             String flag,
             String display
     ) {
@@ -21,6 +22,7 @@ public record AirportResponse(
                     airport.getCity(),
                     airport.getIsoCode(),
                     airport.getCountryName(),
+                    airport.getContinent(),
                     airport.getFlag(),
                     airport.getCity() + "(" + airport.getCode() + ")"
             );
