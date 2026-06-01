@@ -24,7 +24,11 @@ public class FlightService {
                 .queryParam("date", date)
                 .toUriString();
 
-        FlightResponse response = restTemplate.getForObject(url, FlightResponse.class);
-        return response != null ? response : new FlightResponse(java.util.List.of());
+        try {
+            FlightResponse response = restTemplate.getForObject(url, FlightResponse.class);
+            return response != null ? response : new FlightResponse(java.util.List.of());
+        } catch (Exception e) {
+            return new FlightResponse(java.util.List.of());
+        }
     }
 }
