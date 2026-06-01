@@ -14,6 +14,7 @@ public record FlightResponse(
 
     public record LegDto(
             String airline,
+            String airlineName,
             String flightNumber,
             String departure,
             String arrival
